@@ -47,10 +47,6 @@
 
 % Iets meer toevoeging studie, eind inleiding?
 
-% nadenken over logloss loglikelihood
-
-% outro 3.1
-
 % iteration: until certain threshold
 
 % manual checks grote bedrijven
@@ -83,13 +79,13 @@
 							\label{section:intro}
 							%%%%%%%%%%
 
-National Statistical Institutes (NSI’s) aim to produce official statistics to contribute to the public debate and policy development. Business statistics, such as statistics on turnovers and bankruptcies, give insights into different facets an economy. These business statistics are often presented by industry, groupings of enterprises with similar economic activities. A classification system for economic activities that is widely used in Europe is the NACE (Nomenclature statistique des activités économiques dans la Communauté Européenne). The NACE is a hierarchical classification and consists of four-digit codes. National Statistical Institutes (NSI’s) may introduce a fifth digit, as Statistics Netherlands did in the \textit{Standaard Bedrijfsindeling} (SBI).
+National Statistical Institutes (NSI’s) aim to produce official statistics to contribute to the public debate and policy development. Business statistics, such as statistics on turnovers and bankruptcies, give insights into different facets of an economy. These business statistics are often presented by industry, groupings of enterprises with similar economic activities. A classification system for economic activities that is widely used in Europe is the NACE (Nomenclature statistique des activités économiques dans la Communauté Européenne). The NACE is a hierarchical classification and consists of four-digit codes. National Statistical Institutes (NSI’s) may introduce a fifth digit, as Statistics Netherlands did in the \textit{Standaard Bedrijfsindeling} (SBI).
 
-The SBI codes for Dutch enterprises can be found in the general business register (GBR). An enterprise is described by Statistics Netherlands as 'statistical unit' and can be a combination of multiple legal units. When a 'legal unit' is registered at the chamber of commerce the SBI code is determined. 
+The SBI codes for Dutch enterprises can be found in the general business register (GBR). An enterprise is described by Statistics Netherlands as a 'statistical unit' and can be a combination of multiple legal units. When a 'legal unit' is registered at the chamber of commerce, the SBI code is determined. 
 
-However, one may question the quality of the SBI codes found in the GBR. \citet{Christensen2008} found that, considering all NACE categories, 18 percent of a sample of Danish firms with at least 5 employees were misclassified. There are no recent quality evaluations available for all NACE codes in the Netherlands. But, for the Dutch car trade sector, with 9 sub-categories, \citet{DeldenScholtusBurger} found that small enterprises (less than 10 employees) in certain sectors had a probability of 50 percent of misclassification.
+However, one may question the quality of the SBI codes found in the GBR. \citet{Christensen2008} found that, considering all NACE categories, 18 percent of a sample of Danish firms with at least 5 employees were misclassified. There are no recent quality evaluations available for all NACE codes in the Netherlands. But, for the Dutch car trade sector, with 9 sub-categories, \citet{DeldenScholtusBurger} found that small enterprises (fewer than 10 employees) in certain sectors had a probability of 50 percent of misclassification.
 
-The SBI codes in the GBR might be incorrect for several reasons. An incorrect code can be appointed during registration, the structure of an enterprise changes over time, or there might be changes in the activity over time. Changes in economic activity are rarely registered \citep{Christensen2008, DeldenScholtusBurger} since this is not obligatory. The correctness of the SBI codes is of great importance for the quality of the business statistics. Misclassifications in the SBI codes could lead to inaccurate, biased output statistics.
+The SBI codes in the GBR might be incorrect for several reasons. An incorrect code can be appointed either during registration, if the structure of an enterprise changes over time, or if there changes in the activity of an enterprise. Changes in economic activity are rarely registered \citep{Christensen2008, DeldenScholtusBurger} since this is not obligatory. The correctness of the SBI codes is of great importance for the quality of the business statistics. Misclassifications in the SBI codes could lead to inaccurate, biased output statistics.
 
 To avoid costly and time-consuming manual checks, NSI’s can use additional data sources to validate or supplement the current data sources. Previous research tried to predict the correct economic activity code using text classification approaches. Textual descriptions of the activity \citep{Caterini} or website texts \citep{Roelands, Berardi, Heidi} were deployed to automate the classification of enterprises using machine learning techniques. However, these attempts resulted in low accuracy or high misclassification rates. 
 
@@ -109,15 +105,15 @@ To point out the incorrectly labeled cases, we include the probability of an err
 							\label{section:related}
 							%%%%%%%%%%
 
-The effects of noisy labels on commonly-used algorithms (e.g. Support Vector Machines (SVMs), logistic regression, k-nearest neighbours) are well studied \citep{Pech, Nettleton}. In general, the performance of an algorithm decreases when labels in the training data are noisy. Although, some algorithms are less influenced by label noise than others \citep{Frenay}. Furtermore, we can distinguish two main approaches when dealing with label noise \citep{Frenay}: filtering approaches and  incorporating a model for the label noise within an algorithm. 
+The effects of noisy labels on commonly-used algorithms (e.g. Support Vector Machines (SVMs), logistic regression, k-nearest neighbours) are well studied \citep{Pech, Nettleton}. In general, the performance of an algorithm decreases when labels in the training data are noisy. However, some algorithms are less influenced by label noise than others \citep{Frenay}. Furthermore, we can distinguish two main approaches when dealing with label noise \citep{Frenay}: filtering approaches and  incorporating a model for the label noise within an algorithm. 
 
-With a filtering approach, the label noise is handled in the data preprocessing stage. Labels that are suspected to be noisy are simply removed from the training set \citep{Brodley}. Removing the suspecte noisy cases from the training set possibly lead to higher classification accuracy, but filtering is problematic when training data is scarce. Also, good classifiers are needed to detect misclassified cases, and learning from noisy labels results in weak classifiers: a chicken-and-egg dilemma as pointed out by \citet{Angelova}.
+With a filtering approach, the label noise is handled in the data preprocessing stage. Labels that are suspected to be noisy are simply removed from the training set \citep{Brodley}. Removing the suspected noisy cases from the training set possibly leads to higher classification accuracy, but filtering is problematic when training data is scarce. Also, good classifiers are needed to detect misclassified cases, and learning from noisy labels results in weak classifiers: a chicken-and-egg dilemma as pointed out by \citet{Angelova}.
 
 Label noise robust variations of common classifiers have been proposed for, among others, logistic regression \citep{Bootkrajang, Rantalainen}), SVMs \citep{Stempfel}, and neural-networks \citep{Sigurdsson, Sukhbaatar}). Or, with a Bayesian approach, a prior on the mislabeling probabilities is included in the model (see \citet{Frenay} for references).
 
-Some approaches for incorporating label noise in a model are interesting in particular, since these are more closely related to the current research. These approaches assume a mixture model. By imposing a mixture model, the population is assumed to consist of multiple subpopulations. A different distribution can be modeled for each subpopulation. A mixture model can be applied to deal with label noise, or to find anomalies or outliers in a dataset. \citet{DiZio, Eskin} applied such a mixture model. They assumed that the erroneous data and the error-free data came from different distributions. Detecting the noisy cases is then identical to finding out to which distribution a case belongs.
+Some approaches for incorporating label noise in a model are interesting in particular, since these are more closely related to the current research. These approaches assume a mixture model. By imposing a mixture model, the population is assumed to consist of multiple subpopulations. A different distribution can thereby be modeled for each subpopulation. A mixture model can be applied to deal with label noise, or to find anomalies or outliers in a dataset. \citet{DiZio, Eskin} applied such a mixture model. They assumed that the erroneous data and the error-free data came from different distributions. Detecting the noisy cases is then identical to finding out to which distribution a case belongs.
 
-The current study has a similar motivation as the earlier studies of \citet{DiZio, Eskin}, but without assuming a specific distribution for the erroneous and error-free data. In the current research, the erroneous cases will be selected based on probability estimates, which is explained in depth in Section~\ref{section:probs}. In addition, the previous research on using website texts to predict the SBI codes will be expanded. As \citet{Nigam} showed, a classifier can be improved by when both labeled and unlabeled data are used for training. By assuming that it is unknown whether an enterprise has the correct SBI code or not, these cases are treated as unlabeled. Therefore, we propose a method where the machine learning model used to predict SBI codes will be iteratively updated by including instances in the training set that are considered correct. 
+The current study has a similar motivation as the earlier studies of \citet{DiZio, Eskin}, but without assuming a specific distribution for the erroneous and error-free data. In the current research, the erroneous cases will be selected based on probability estimates, which is explained in depth in Section~\ref{section:probs}. In addition, the previous research on using website texts to predict the SBI codes will be expanded. As \citet{Nigam} showed, a classifier can be improved when both labeled and unlabeled data are used for training. By assuming that it is unknown whether an enterprise has the correct SBI code or not, these cases are treated as unlabeled. Therefore, we propose a method where the machine learning model used to predict SBI codes will be iteratively updated by including instances in the training set that are considered correct. 
 
 \bigskip
 
@@ -194,7 +190,7 @@ Substituting elements of Equation~\ref{eq:1} into Bayes' Theorem gives:
 						\end{equation}
 
 
-The first term in Equation~\ref{eq:3}, $P(z_i = 1|\hat{y}_i = h, \zeta_i, u_i, \theta)$, represents the expected probability of an erroneous label in the GBR, given the observed label, features of the website, enterprise characteristics, and the model parameters. We assume that the probability of an erroneous label in the GBR does not directly depend on the features of the website or on the parameters of the machine learning model. One may argue, however, that the website text (and therefore the features derived from the website text) can indirectly influence the probability of an error. That is, units for which it is more difficult to derive the SBI code may also have more vague website texts, or website with less text. Indirect effect of the website text can be captured in $u_i$, we include for instance the number of words in the website text in $u_i$. Given these assumptions, we obtain the probability of an erroneous case, which we denote as $\pi_i$:
+The first term in Equation~\ref{eq:3}, $P(z_i = 1|\hat{y}_i = h, \zeta_i, u_i, \theta)$, represents the expected probability of an erroneous label in the GBR, given the observed label, features of the website, enterprise characteristics, and the model parameters. We assume that the probability of an erroneous label in the GBR does not directly depend on the features of the website or on the parameters of the machine learning model. One may argue, however, that the website text (and therefore the features derived from the website text) can indirectly influence the probability of an error. That is, units for which it is more difficult to derive the SBI code may also have more vague website texts, or websites with less text. The indirect effect of the website text can be captured in $u_i$; we include for instance the number of words in the website text in $u_i$. Given these assumptions, we obtain the probability of an erroneous case, which we denote as $\pi_i$:
 
 						\begin{equation}\label{eq:pi4}
 \pi_i \equiv P(z_i = 1|\hat{y}_i = h, \zeta_i, u_i, \theta = P(z_i = 1|\hat{y}_i = h, u_i, \theta^R) .
@@ -238,7 +234,7 @@ Likewise, there is the probability of an erroneous label, $\tau_i$, when there i
 
 The term $P(\hat{a}_i= 0|z_i = 1, \hat{y}_i = h, \zeta_i, u_i, \theta)$ represents the probability that the observed SBI code and predicted code disagree, given that the label is incorrect. This can be estimated by $1-\gamma$.
 
-The term $P(\hat{a}_i = 0 | z_i = 0, \zeta_i, u_i, \theta)$ represent the probability of disagreement, given that the label is correct. This probability is equal to $1 - P(\hat{a}_i = 0 | z_i = 0, \zeta_i, u_i, \theta) = 1 - P(y^*_i = h | z_i = 0, \zeta_i, u_i, \theta^M)$. 
+The term $P(\hat{a}_i = 0 | z_i = 0, \zeta_i, u_i, \theta)$ represents the probability of disagreement, given that the label is correct. This probability is equal to $1 - P(\hat{a}_i = 0 | z_i = 0, \zeta_i, u_i, \theta) = 1 - P(y^*_i = h | z_i = 0, \zeta_i, u_i, \theta^M)$. 
 
 Equation~\ref{eq:9} can be rewritten as:
 
@@ -247,7 +243,7 @@ Equation~\ref{eq:9} can be rewritten as:
 						\end{equation}
 
 
-This implies tha the probability of an erroneous label is large when according to the machine learning model it is likely that the SBI code of unit $i$ differs from the code that is observed in the GBR.
+This implies that the probability of an erroneous label is large when according to the machine learning model it is likely that the SBI code of unit $i$ differs from the code that is observed in the GBR.
 
 					%%%%%%%%%%
 					\subsection{Estimation using the EM algorithm}
@@ -283,23 +279,23 @@ The process is presented in Table~\ref{tab:table1}.
 
 
 							%%%%%%%%%%
-							\section{Experiments}
+							\subsection{Experiments}
 							\label{section:experiments}
 							%%%%%%%%%%
 
 This section describes the experimental evaluation of the method. The goal is to investigate under which circumstances the method is (not) able to find the erroneous cases. Section~\ref{section:synthdata} describes how a synthethic dataset is created. The different experimental settings are explained in Section~\ref{section:settings}. Lastly, Section~\ref{section:evaluation} elaborates on the evaluations metrics used to select the optimal starting values and to select the best performing model.
 
 					%%%%%%%%%%
-					\subsection{Synthetic dataset}
+					\subsubsection{Synthetic dataset}
 					\label{section:synthdata}
 					%%%%%%%%%%
-The synthethic dataset is based on the real-life data from the GBR. A limited number of SBI codes are selected for the experiments. In total, 25 classes were chosen, some of the classes are combinations of different SBI codes. One prerequisite was that all classes were large, containing at least 400 enterprises with a known URL in the GBR. On the one hand, within the 25 classes were homogeneous classes that are unrelated to other classes, such as hairdressers. On the other hand, more overlapping, related classes are included, such as wholesale of clothes and shops selling clothes. Both more similar and more unrelated classes are included to see if the model can distinguish between these classes when the labels are manipulated (see Section~\ref{section:settings}.
+The synthethic dataset is based on the real-life data from the GBR. A limited number of SBI codes are selected for the experiments. In total, 25 classes were chosen, some of which are combinations of different SBI codes. One prerequisite was that all classes were large, containing at least 400 enterprises with a known URL in the GBR. On the one hand, within the 25 classes were homogeneous classes that are unrelated to other classes, such as hairdressers. On the other hand, more overlapping, related classes are included, such as wholesale of clothes and shops selling clothes. Both more similar and more unrelated classes are included to see if the model can distinguish between these classes when the labels are manipulated (see Section~\ref{section:settings}.
 
-A filter is applied to the 25 selected classes. The objective was to end up with those cases of which the SBI codes are almost certainly correct. For filtering, three different machine learning models are applied to the dataset. These machine learning models are trained on the large enterprises. A website is included in our new dataset G if three predicted labels are all in correspondence with the observed label in the GBR. Next, errors in the SBI code are introduced in some units in set $G$. The set with introduced errors is called te synthetic dataset $H$. The true labels for the manipulated cases are known, the knowledge of the true labels can be used to evaluate the model performance.
+A filter is applied to the 25 selected classes. The objective was to end up with those cases of which the SBI codes are almost certainly correct. For filtering, three different machine learning models are applied to the dataset. These machine learning models are trained on the large enterprises. A website is included in our new dataset $G$ if three predicted labels are all in correspondence with the observed label in the GBR. Next, errors in the SBI code are introduced in some units in set $G$. The set with introduced errors is called the synthetic dataset $H$. The true labels for the manipulated cases are known, the knowledge of the true labels can be used to evaluate the model performance.
 
 Set H consists of three parts:
 \begin{itemize}
-\item gold set: this part contains solely true SBI codes, therefore all units in the gold set have $z_i = 0$. Conceptually, this represent the part of the GBR that is checked manually. This part is initially used as the input for the machine learning model.
+\item gold set: this part contains solely true SBI codes, therefore all units in the gold set have $z_i = 0$. Conceptually, this represents the part of the GBR that is checked manually. This part is initially used as the input for the machine learning model.
 \item false set: for this part all labels are set to erroneous labels, $z_i = 1$. This false set is introduced to serve as input for the logistic regression model, since a logistic regression model needs both incorrect and correct examples to be able to estimate parameters.\\
 \\
 The union of the gold set and the false set form the labeled set.
@@ -315,7 +311,7 @@ Figure \ref{fig1} depicts how the synthethic set $H$ is obtained.
 \end{figure}
 
 					%%%%%%%%%%
-					\subsection{Experimental settings}
+					\subsubsection{Experimental settings}
 					\label{section:settings}
 					%%%%%%%%%%
 % representativity error-pattern
@@ -325,13 +321,13 @@ Figure \ref{fig1} depicts how the synthethic set $H$ is obtained.
 
 % design model (with/without log reg)
 
-We aim to test the performance of the algorithm in different settings. The manipulations in set $H$ are varied with respect to: 1) how representative the error-patterns in the labeled set is for the error-pattern in the noisy set, 2) the size of the labeled set compared to the noisy set, 3) the percentage of errors in the noisy set, and 4) the type of errors. 
+We aim to test the performance of the algorithm in different settings. The manipulations in set $H$ are varied with respect to: 1) how representative the error-patterns in the labeled set are for the error-pattern in the noisy set, 2) the size of the labeled set compared to the noisy set, 3) the percentage of errors in the noisy set, and 4) the type of errors. 
 
-Firstly, the error patterns in the labeled and noisy set could be generated such that they are similar, i.e. cases with certain characteristics have errors. This is referred to as the 'informed labeled set'. In this case, the model should be able to point out the errors in the noisy that. We also generate errors in the labeled set using only part of the enterprise characteristics, the 'limited labeled set'. Also, we can introduce random errors in the labeled set: 'random labeled set'. 
+Firstly, the error patterns in the labeled and noisy set could be generated such that they are similar, i.e. cases with certain characteristics have errors. This is referred to as the 'informed labeled set'. In this case, the model should be able to point out the errors in the noisy set. We also generate errors in the labeled set using only part of the enterprise characteristics, the 'limited labeled set'. Also, we can introduce random errors in the labeled set: 'random labeled set'. 
 
-Two types of errors can be introduced: obvious and subtle errors. When a observed SBI code is manipulated, one could vary how related the new, manipulated label is to the observed label. A SBI code that is changed to a non-related SBI code is an obvious error. A SBI code that is changed to a more similar, related SBI code is a subtle error.
+Two types of errors can be introduced: obvious and subtle errors. When an observed SBI code is manipulated, one could vary how related the new, manipulated label is to the observed label. A SBI code that is changed to a non-related SBI code is an obvious error. A SBI code that is changed to a more similar, related SBI code is a subtle error.
 
-Moreover, the proposed model, including a machine learning model and a logistic regression model, can be simplified. Less predictors can be used in the logistic regression, or the logistic regression could be replaced by simply including an average error probability.
+Moreover, the proposed model, including a machine learning model and a logistic regression model, can be simplified. Fewer predictors can be used in the logistic regression, or the logistic regression could be replaced by simply including an average error probability.
 
 % Settings for the number of activitites;
 % A machine learning model provides us with a probability for every class. So far, in the discussion of the algorithm, only the first predicted class (top 1) is considered. Instead, also the three most likely classes can be considered (top 3). We want to account for the fact that an enterprise can have multiple activities and a website may be biased towards a related activity.
@@ -357,18 +353,18 @@ Modeling $\pi_i$               & \begin{tabular}[c]{@{}l@{}}logistic regression 
 
 
 					%%%%%%%%%%
-					\subsection{Evaluation metrics}
+					\subsubsection{Evaluation metrics}
 					\label{section:evaluation}
 					%%%%%%%%%%
 
 
 % verschillende startwaarden: log likelihood
 \subsubsection{Log-likelihood}
-In order to select the optimal starting values for the EM algorithm, we use the log-likelihood of the labeled set. Within the labeled set, there is a part with $z_i = 1$ and a part with $z_i = 0$. For the part with $z_i = 1$ we are interested in the estimated probabilities for $\tau_i$. These probabilities are ideally close to 1. For the part of the labeled set where $z_i = 0$, we do know the true SBI code for unit $i$. We want to extract the probability of for that code as predicted by the machine learning model. Preferably, this probability is close to 1.
+In order to select the optimal starting values for the EM algorithm, we use the log-likelihood of the labeled set. Within the labeled set, there is a part with $z_i = 1$ and a part with $z_i = 0$. For the part with $z_i = 1$ we are interested in the estimated probabilities for $\tau_i$. These probabilities are ideally close to 1. For the part of the labeled set where $z_i = 0$, we do know the true SBI code for unit $i$. We want to extract the probability that the machine learning model predicts this true SBI code. Preferably, this probability is close to 1.
 The log-likelihood is then given by:
 
 						\begin{equation}\label{log}
-log \sum_i (z_i \tau_i + \sum_k (1-z_i)I(y_i = k)\hat{P}(y_i=k)
+log \sum_i z_i \tau_i + \sum_k (1-z_i)I(y_i = k)\hat{P}(y_i=k)
 						\end{equation}
 
 % Evaluate which of the SBI codes are predicted to be erroneous
