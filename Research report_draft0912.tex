@@ -43,23 +43,6 @@
 %\doublespacing
 
 
-%%%%%%% TO DO
-
-% Iets meer toevoeging studie, eind inleiding?
-
-% iteration: until certain threshold
-
-% manual checks grote bedrijven
-	% The SBI codes for big, influential companies are actively checked by SN.
-	% In practice, big, influential companies are manually checked at Statistics Netherlands. We can use this knowledge in our advantage, by initaiting the algorithm based on the large companies.
-
-% EM tabel beter; en uitleggen initial values
-
-% application to GBR
-
-%%%%%%% varieren met verhoudingen van sets?
-% percentage fouten
-
 
 \begin{document}
 \title{Predicting incorrect labels: combining (noisy) existing data and text classification}
@@ -79,7 +62,7 @@
 							\label{section:intro}
 							%%%%%%%%%%
 
-National Statistical Institutes (NSI’s) aim to produce official statistics to contribute to the public debate and policy development. Business statistics, such as statistics on turnovers and bankruptcies, give insights into different facets of an economy. These business statistics are often presented by industry, groupings of enterprises with similar economic activities. A classification system for economic activities that is widely used in Europe is the NACE (Nomenclature statistique des activités économiques dans la Communauté Européenne). The NACE is a hierarchical classification and consists of four-digit codes. National Statistical Institutes (NSI’s) may introduce a fifth digit, as Statistics Netherlands did in the \textit{Standaard Bedrijfsindeling} (SBI).
+National Statistical Institutes (NSI’s) aim to produce official statistics to contribute to the public debate and policy development. Business statistics, such as statistics on turnovers and bankruptcies, give insights into different facets of an economy. These business statistics are often presented by industry, groupings of enterprises with similar economic activities. The classification system for economic activities that is used in the European Union is the NACE (Nomenclature statistique des activités économiques dans la Communauté Européenne). The NACE is a hierarchical classification and consists of four-digit codes. National Statistical Institutes (NSI’s) may introduce a fifth digit, as Statistics Netherlands did in the \textit{Standaard Bedrijfsindeling} (SBI).
 
 The SBI codes for Dutch enterprises can be found in the general business register (GBR). An enterprise is described by Statistics Netherlands as a 'statistical unit' and can be a combination of multiple legal units. When a 'legal unit' is registered at the chamber of commerce, the SBI code is determined. 
 
@@ -95,10 +78,7 @@ Instead of predicting the correct label for each case, the focus in this study i
 
 The goal of the current research is therefore to create a method to point out the incorrectly labeled cases. To find these erroneous cases both the observed label and a predicted label, based on a machine learning algorithm, are included in the proposed method. Including two labels for every enterprise leads to the introduction of a variable that indicates whether there is an agreement between those two labels. An agreement between the two labels would lead to more trust in the labels, i.e. a lower probability of being erroneous for that enterprise.
 
-To point out the incorrectly labeled cases, we include the probability of an error. Other studies that tried to locate erroneous cases assumed a random error-pattern \citep{Sigurdsson,Eskin,DiZio}. An average probability of being incorrect was included in the models to account for the noise. However, we believe the probability of an error might depend on characteristics of the enterprise. \citet{DeldenScholtusBurger} found that enterprise characteristics, such as size class and the number of legal units, influence the probability of an classification error. Instead of assuming a random-error pattern, the current research will account for heterogeneous error probabilities.
-
-% For that reason, the proposed method explicitly models the probability of an error with a logistic regression model.
-
+To point out the incorrectly labeled cases, we include the probability of an error. Other studies that tried to locate erroneous cases assumed a random error-pattern \citep{Sigurdsson,Eskin,DiZio}. An average probability of being incorrect was included in the models to account for the noise. However, we believe the probability of an error might depend on characteristics of the enterprise. \citet{DeldenScholtusBurger} found that enterprise characteristics, such as size class and the number of legal units, influence the probability of an classification error. Instead of assuming a random-error pattern, the current research will account for non-random error probabilities.
 
 							%%%%%%%%%%
 							\section{Related work}
@@ -115,9 +95,11 @@ Some approaches for incorporating label noise in a model are interesting in part
 
 The current study has a similar motivation as the earlier studies of \citet{DiZio, Eskin}, but without assuming a specific distribution for the erroneous and error-free data. In the current research, the erroneous cases will be selected based on probability estimates, which is explained in depth in Section~\ref{section:probs}. In addition, the previous research on using website texts to predict the SBI codes will be expanded. As \citet{Nigam} showed, a classifier can be improved when both labeled and unlabeled data are used for training. By assuming that it is unknown whether an enterprise has the correct SBI code or not, these cases are treated as unlabeled. Therefore, we propose a method where the machine learning model used to predict SBI codes will be iteratively updated by including instances in the training set that are considered correct. 
 
+In summary.....
+
 \bigskip
 
-This paper proceeds as follows. In Section~\ref{section:method}, we describe the proposed methodology to find erroneous labeled cases. In turn, we will elaborate on the different experiments that we ran to test the method in Section~\ref{section:experiments}. Lastly, results and conclusions are given.
+This paper proceeds as follows. In Section~\ref{section:method}, we describe the proposed methodology to find erroneous labeled cases. In turn, we will elaborate on the different experiments that we ran to test the method (Section~\ref{section:experiments}). 
 
 
 
@@ -139,15 +121,18 @@ In this research, the following aspects are combined in the proposed method:
 \end{enumerate}
 
 % Predicted label
-The predicted label is obtained by fitting a machine learning model, the method is not restricted to a specific classifier.  The website text serves as the input for the machine learning model. URLs for websites are obtained from the GBR, or via an external party when a URL was missing in the GBR. Only the main page of each website is scraped. The text from the main page is tokenized, e.g. split into smaller parts that can serve as features. Moreover, the observed label, and the agreement between the observed label and the predicted label will be included. 
+The predicted label is obtained by fitting a machine learning model, the method is not restricted to a specific classifier.  The website text serves as the input for the machine learning model. URLs for websites are obtained from the GBR, or via an external party when a URL was missing in the GBR. Only the main page of each website is scraped. The text from the main page is tokenized, e.g. split into smaller parts that can serve as features. Moreover, the observed label, and the agreement between the observed label and the predicted label will be included in the proposed method.
 
 % Prob of error / Logistic regression
-We assume that characteristics of an enterprise affect the probability of having an erroneous label. A logistic regression is modeled to relate characteristics of enterprises to the probability of an error. These characteristics are \textit{the size class}, \textit{the number of legal units that together form the statistical unit}, \textit{the number of different activities in the legal units}, \textit{an enterprises' age}, \textit{the SBI codes for the main and secondary economic activity of an enterprise}. These characteristics are all available in the GBR.
+We assume that characteristics of an enterprise affect the probability of an error. A logistic regression is modeled to relate characteristics of enterprises to the probability of an error. These characteristics are \textit{the size class}, \textit{the number of legal units that together form the statistical unit}, \textit{the number of different activities in the legal units}, \textit{an enterprises' age}, \textit{the SBI codes for the main and secondary economic activity of an enterprise}. These characteristics are all available in the GBR.
 \bigskip
 
 First of all, all mathematical notation will be introduced in the following paragraph. In Section~\ref{section:probs} we explain how we derive the probability of an erroneous label for each case, based on the components mentioned above. These probabilities are estimated with an EM algorithm, as explained in Section~\ref{section:em}.
 
+							%%%%%%%%%
 							\subsection{Notation}
+							%%%%%%%%%
+Here, we introduce the necessary notation.
 
 \textbf{The predicted label.} Let $y^*_i = k$ denote the SBI code predicted by the machine learning model for unit $i$. The input for the machine learning model are the features of the website text, denoted by $\zeta_i$. The parameters of the machine learning model are denoted by $\theta^M$. 
 %Any machine learning model that gives provides predicted class probabilities would work
@@ -156,16 +141,18 @@ First of all, all mathematical notation will be introduced in the following para
 
 \textbf{The agreement.} The predicted code $y^*_i = k$ and the observed code  $\hat{y}_i = h$ are compared. Let $a$ denote this agreement, with $a \in \{0,1\}$. Let $a=1$ if the two codes agree and $a=0$ otherwise.
 
-\textbf{The probability of an error.} Finally, we introduce a latent variable, $z_i$, that represents whether a unit's observed code in the GBR is correct or erroneous. Let $z_i = 0$ if the code in the GBR is the true code and $z_i = 1$ otherwise. The variable $z_i$ can be modeled as a function of enterprise characteristics using logistic regression. The probability of an erroneous label, $P(z_i = 1)$, may depend on characteristics such as the size class or the number of legal units \citep{DeldenScholtusBurger}. Enterprise characteristics are denoted by  $u_i$. Let $\theta^R$ denote the parameters of the logistic regression model.
-% introduce pi!!!
-The full set of model parameters is therefore $\theta \in \{ \theta^M, \theta^R\}$. 
+\textbf{The probability of an error.} Finally, we introduce a latent variable, $z_i$, that represents whether a unit's observed code in the GBR is correct or erroneous. Let $z_i = 0$ if the code in the GBR is the true code and $z_i = 1$ when the code in the GBR is incorrect. The variable $z_i$ can be modeled as a function of enterprise characteristics using logistic regression. The probability of an erroneous label, $P(z_i = 1)$, may depend on characteristics such as the size class or the number of legal units \citep{DeldenScholtusBurger}. Enterprise characteristics are denoted by  $u_i$. Let $\theta^R$ denote the parameters of the logistic regression model. The full set of model parameters is therefore $\theta \in \{ \theta^M, \theta^R\}$. 
+
+Throughout this paper we assume that each unit has a single true (unknown) NACE code which is considered as fixed. That is, the NACE code that is derived when all economic activity information is available without error and the rules to derive a NACE code is applied correctly.
+
+In the next paragraph we explain how a probability of an erroneous case is estimated.
 
 					%%%%%%%%%%
 					\subsection{Deriving the probability of being erroneous}
 					\label{section:probs}
 					%%%%%%%%%%
 
-Eventually, we are interested in the probability that a unit is incorrectly labeled, given the agreement between observed and predicted code, enterprise characteristics, features derived from the website text, and the model parameters. This is defined as $\tau_i$:
+We are interested in the probability that a unit is incorrectly labeled, given the agreement between observed and predicted code, enterprise characteristics, features derived from the website text, and the model parameters. This is defined as $\tau_i$:
 
 						\begin{equation} \label{eq:1}
 \tau_i(\hat{a}_i = a) \equiv P(z_i = 1 | \hat{a}_i = a, \hat{y}_i = h, \zeta_i, u_i, \theta).
@@ -181,16 +168,16 @@ Substituting elements of Equation~\ref{eq:1} into Bayes' Theorem gives:
 %A for $z_i = 1$, B for $\hat{a}_i = 1$, and C for $\hat{y}_i = h, \zeta_i, u_i, \theta$ gives:
 
 						\begin{equation}\label{eq:2}
-\tau_i(\hat{a}_i = 1) = (z_i = 1 | \hat{a}_i = 1, \hat{y} = h, \zeta_i, u_i, \theta) = 
+\tau_i(\hat{a}_i = 1) = P(z_i = 1 | \hat{a}_i = 1, \hat{y} = h, \zeta_i, u_i, \theta) = 
 						\end{equation}
 
 						\begin{equation}\label{eq:3}
 \frac{P(z_i = 1|\hat{y}_i = h, \zeta_i, u_i, \theta)P(\hat{a}_i=1|z_i=1, \hat{y}_i = h, \zeta_i, u_i, \theta) }
-{\sum_{z=0,1}P(z_i=z|\hat{y}_i = h, \zeta_i, u_i, \theta) P( \hat{a}_i=1|z_i=z, \hat{y}_i = h, \zeta_i, u_i, \theta  )} 
+{\sum_{z=0,1}P(z_i=z|\hat{y}_i = h, \zeta_i, u_i, \theta) P( \hat{a}_i=1|z_i=z, \hat{y}_i = h, \zeta_i, u_i, \theta  )} .
 						\end{equation}
 
 
-The first term in Equation~\ref{eq:3}, $P(z_i = 1|\hat{y}_i = h, \zeta_i, u_i, \theta)$, represents the expected probability of an erroneous label in the GBR, given the observed label, features of the website, enterprise characteristics, and the model parameters. We assume that the probability of an erroneous label in the GBR does not directly depend on the features of the website or on the parameters of the machine learning model. One may argue, however, that the website text (and therefore the features derived from the website text) can indirectly influence the probability of an error. That is, units for which it is more difficult to derive the SBI code may also have more vague website texts, or websites with less text. The indirect effect of the website text can be captured in $u_i$; we include for instance the number of words in the website text in $u_i$. Given these assumptions, we obtain the probability of an erroneous case, which we denote as $\pi_i$:
+The first term in Equation~\ref{eq:3}, $P(z_i = 1|\hat{y}_i = h, \zeta_i, u_i, \theta)$, represents the expected probability of an erroneous label in the GBR, given the observed label, features of the website, enterprise characteristics, and the model parameters. We assume that the probability of an erroneous label in the GBR does not directly depend on the features of the website or on the parameters of the machine learning model. However, the website text (and therefore the features derived from the website text) can indirectly influence the probability of an error. That is, units for which it is more difficult to derive the SBI code may also have more vague website texts, or websites with less text. The indirect effect of the website text can be captured in $u_i$; we include for instance the number of words in the website text in $u_i$. Given these assumptions, we obtain the probability of an error, which we denote as $\pi_i$:
 
 						\begin{equation}\label{eq:pi4}
 \pi_i \equiv P(z_i = 1|\hat{y}_i = h, \zeta_i, u_i, \theta = P(z_i = 1|\hat{y}_i = h, u_i, \theta^R) .
@@ -206,7 +193,7 @@ $\gamma$ and assume this is a small probability. There is a small probability th
 						\end{equation} 
 
 
-Furthermore, we consider the probability of an agreement, given that the label is correct: $P(\hat{a}_i=1|z_i=0, \hat{y}_i = h, \zeta_i, u_i, \theta)$. This probability can be estimated for the probability that $y^*_i = h$ based on the fitted text mining model. Therefore, $P(\hat{a}_i=1|z_i=0, \hat{y}_i = h, \zeta_i, u_i, \theta) = P(y^*_i = h | z_i = 0, \zeta_i, u_i, \theta^M)$. 
+Furthermore, we consider the probability of an agreement, given that the label is correct: $P(\hat{a}_i=1|z_i=0, \hat{y}_i = h, \zeta_i, u_i, \theta)$. This probability can be estimated for the probability that $y^*_i = h$ based on the fitted machine learning model. Therefore, $P(\hat{a}_i=1|z_i=0, \hat{y}_i = h, \zeta_i, u_i, \theta) = P(y^*_i = h | z_i = 0, \zeta_i, u_i, \theta^M)$. 
 
 
 Equation~\ref{eq:3} can now be rewritten as:
@@ -229,7 +216,7 @@ Likewise, there is the probability of an erroneous label, $\tau_i$, when there i
 
 						\begin{equation}\label{eq:9}
 \frac{\pi_i P(\hat{a}_i=0|z_i=1, \hat{y}_i = h, \zeta_i, u_i, \theta) }
-{(1-\pi_i)P(\hat{a}*_i = 0 | z_i = 0, \zeta_i, u_i, \theta) + \pi_i P(\hat{a}*_i = 0 | z_i = 1, \zeta_i, u_i, \theta) } .
+{(1-\pi_i)P(\hat{a}_i = 0 | z_i = 0, \zeta_i, u_i, \theta) + \pi_i P(\hat{a}_i = 0 | z_i = 1, \zeta_i, u_i, \theta) } .
 						\end{equation}
 
 The term $P(\hat{a}_i= 0|z_i = 1, \hat{y}_i = h, \zeta_i, u_i, \theta)$ represents the probability that the observed SBI code and predicted code disagree, given that the label is incorrect. This can be estimated by $1-\gamma$.
@@ -239,11 +226,14 @@ The term $P(\hat{a}_i = 0 | z_i = 0, \zeta_i, u_i, \theta)$ represents the proba
 Equation~\ref{eq:9} can be rewritten as:
 
 						\begin{equation}\label{eq:10}
-\frac{\pi_i (1-\gamma)}{(1-\pi_i)(1-P(y^*_i = h | z_i = 0, \zeta_i, \theta^M)) + \pi_i (1-\gamma)}
+\frac{\pi_i (1-\gamma)}{(1-\pi_i)(1-P(y^*_i = h | z_i = 0, \zeta_i, \theta^M)) + \pi_i (1-\gamma)}   .
 						\end{equation}
 
 
 This implies that the probability of an erroneous label is large when according to the machine learning model it is likely that the SBI code of unit $i$ differs from the code that is observed in the GBR.
+
+In summary, Equation~\ref{eq:6} or Equation~\ref{eq:10} is used to estimate the probability of an case being erroneous. If this probability is greater than 0.5 for a unit, this unit is considered erroneous and we set $z_i = 1$. If the probability of being erroneous is smaller than 0.5, a unit is seen as correct and, therefore, $z_i=0$. In the following paragraph, it is explained how the model parameters are estimated.
+
 
 					%%%%%%%%%%
 					\subsection{Estimation using the EM algorithm}
@@ -271,7 +261,7 @@ The process is presented in Table~\ref{tab:table1}.
                     & \tabitem Estimate $\gamma$                                                                                                                              \\ \hline
 \textbf{E-step}     & Re-estimate $\tau_i$ according to Equation~\ref{eq:6} and \ref{eq:10}.                                                                                \\
                     & If $\tau_i > .5$ set $z_i = 1$ and $z_i = 0$ otherwise                                                                                         \\ \hline
-\textbf{Iterate}    & \begin{tabular}[c]{@{}l@{}}Repeat the E- and M-step until the changes in $\tau_i$ are \\ smaller than ***a certain threshold***.\end{tabular}   
+\textbf{Iterate}    & \begin{tabular}[c]{@{}l@{}}Repeat the E- and M-step until the changes in $\tau_i$ are \\ smaller than 1e-9.\end{tabular}   
 \end{tabular}
 \end{table}
 
