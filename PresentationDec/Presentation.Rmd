@@ -1,0 +1,125 @@
+---
+title: "Detecting incorrect labels in a business register using text classification"
+author: "Vera Oosterveen"
+date: "17 december 2019"
+output: 
+    ioslides_presentation:
+        logo: figures/cbslogo.png
+        transition: 0
+---
+
+```{r setup, include=FALSE}
+require(DT)
+require(readxl)
+require(ggplot2)
+require(plotly)
+```
+
+
+##Introduction
+
+
+```{r, echo=FALSE}
+df <- read_excel("C:/git_repositories/seminarGITHUB/table_bank.xlsx")
+
+df$sector <- sort(df$sector)
+
+p <- ggplot(df, aes(x = sector, y = number)) +
+  geom_bar(stat="identity", fill="steelblue")+
+  theme_minimal() +
+  ylab("Number of bankruptcies of businesses and institutions") +
+  xlab("")
+
+p <- p + coord_flip()
+
+ggplotly(p)
+```
+
+## NACE codes
+
+Classify economic activities: NACE
+
+*"Nomenclature statistique des Activités économiques dans la Communauté Européenne"*
+
+
+
+The NACE is a hierarchical classification and contains four-digit codes
+
+## NACE codes
+
+<img src="figures/barberbakery.jpg" alt="HTML5 Icon" width = 100%>
+
+General Business Register (GBR)
+
+47.2.4 - Retail sale of bread, cakes, flour confectionery
+
+96.0.2 - Hairdressing 
+
+## NACE codes
+
+- Incorrect code appointed during registration
+- Structure of an enterprise changes over time
+- Changes in the activity of an interprise
+
+## NACE codes
+
+<img src="figures/barberbakery.jpg" alt="HTML5 Icon" width = 100%>
+
+Manual checks are costly and time-consuming...
+
+## Previous research
+
+<center>
+<img src="figures/pres_websiteNACE.png" alt="HTML5 Icon" width = 100%>
+</center>
+
+# Current research
+
+## So we decided to turn things around...
+<center>
+<img src="figures/lionking.gif" alt="HTML5 Icon" width = 100%>
+</center>
+
+## Current research
+
+<center>
+<img src="figures/pres_nowNACE.jpg" alt="HTML5 Icon">
+</center>
+
+## Current research
+
+<center>
+<img src="figures/pres_nowNACE2.jpg" alt="HTML5 Icon">
+</center>
+
+## Current research
+
+<center>
+<img src="figures/pres_nowNACE3.jpg" alt="HTML5 Icon">
+</center>
+
+## Current research  {.columns-2}
+
+<center>
+<img src="figures/math.jpg" alt="HTML5 Icon" width = 100%>
+</center>
+
+  1. Predicted label
+  2. Observed label
+  3. Agreement
+  4. Probability of an error based on enterprise characteristics
+
+
+## Testing the method: experiments {.columns-2}
+<center>
+<img src="figures/pres_synthset.jpg" alt="HTML5 Icon">
+</center>
+
+- Percentage of errors
+- Subtle / obvious errors
+- Size of the labeled set
+- Relating enterprise characteristics to probability of an error
+
+## Results...
+
+## Questions?
